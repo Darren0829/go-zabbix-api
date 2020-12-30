@@ -227,7 +227,7 @@ func (api *API) itemsHeadersUnmarshal(item Items) {
 				for _, a := range applications {
 					ids = append(ids, a.ApplicationID)
 				}
-				h.Applications = ids
+				item[i].Applications = ids
 			}
 		}
 

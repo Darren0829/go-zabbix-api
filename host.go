@@ -10,6 +10,8 @@ type (
 	// StatusType Status and function of the host.
 	// see "status" in:	https://www.zabbix.com/documentation/3.2/manual/api/reference/host/object
 	StatusType int
+
+	InventoryMode int
 )
 
 const (
@@ -19,6 +21,12 @@ const (
 	Available AvailableType = 1
 	// Unavailable host is unavailable
 	Unavailable AvailableType = 2
+)
+
+const (
+	InventoryDisabled InventoryMode = -1
+	InventoryManual InventoryMode = 0
+	InventoryAutomatic InventoryMode = 1
 )
 
 const (
@@ -41,6 +49,7 @@ type Host struct {
 
 	RawInventory json.RawMessage `json:"inventory,omitempty"`
 	Inventory    *Inventory      `json:"-"`
+	InventoryMode InventoryMode `json:"inventory_mode,string"`
 
 	// Fields below used only when creating hosts
 	GroupIds         HostGroupIDs   `json:"groups,omitempty"`
