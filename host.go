@@ -24,8 +24,8 @@ const (
 )
 
 const (
-	InventoryDisabled InventoryMode = -1
-	InventoryManual InventoryMode = 0
+	InventoryDisabled  InventoryMode = -1
+	InventoryManual    InventoryMode = 0
 	InventoryAutomatic InventoryMode = 1
 )
 
@@ -47,9 +47,9 @@ type Host struct {
 	Status     StatusType    `json:"status,string"`
 	UserMacros Macros        `json:"macros,omitempty"`
 
-	RawInventory json.RawMessage `json:"inventory,omitempty"`
-	Inventory    *Inventory      `json:"-"`
-	InventoryMode InventoryMode `json:"inventory_mode,string"`
+	RawInventory  json.RawMessage `json:"inventory,omitempty"`
+	Inventory     Inventory       `json:"-"`
+	InventoryMode InventoryMode   `json:"inventory_mode,string"`
 
 	// Fields below used only when creating hosts
 	GroupIds         HostGroupIDs   `json:"groups,omitempty"`
@@ -104,7 +104,7 @@ func (api *API) HostsGet(params Params) (res Hosts, err error) {
 
 		// if its an empty array
 		asStr := string(h.RawInventory)
-		if asStr == "[]" {
+		if asStr == "[]" || asStr == "{}" {
 			continue
 		}
 
@@ -114,7 +114,7 @@ func (api *API) HostsGet(params Params) (res Hosts, err error) {
 			api.printf("got error during unmarshal %s", err)
 			panic(err)
 		}
-		res[i].Inventory = &inv
+		res[i].Inventory = inv
 	}
 
 	return
